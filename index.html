@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catholic Life Lesson Prompt Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .info-box {
+            background: #f7fafc;
+            border-left: 4px solid #4299e1;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-box h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .info-box p {
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .optional {
+            color: #718096;
+            font-weight: normal;
+            font-size: 0.9em;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+        
+        .prompt-output {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 25px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .copy-btn {
+            background: #38a169;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        
+        .copy-btn:hover {
+            background: #2f855a;
+            transform: translateY(-1px);
+        }
+        
+        .copy-btn.copied {
+            background: #4299e1;
+        }
+        
+        .instructions {
+            background: #fff5f5;
+            border-left: 4px solid #fc8181;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .instructions h3 {
+            color: #c53030;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            color: #742a2a;
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Catholic Life Lesson Prompt Generator</h1>
+            <p>Generate AI prompts to link your lessons to Scripture, Catholic Social Teaching, and School Values</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h3>Why This Matters</h3>
+                <p>As a Catholic school, every lesson should link to Catholic Life through Catholic Social Teaching, School Values, or Scripture. This tool generates ready-to-use AI prompts that will create clear, student-friendly connections for your lessons.</p>
+            </div>
+            
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="topic">Lesson Topic *</label>
+                    <input type="text" id="topic" placeholder="e.g., World War II, Photosynthesis, Romeo and Juliet" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="question">Driving Question *</label>
+                    <input type="text" id="question" placeholder="e.g., How did WWII change society? Why do plants need light?" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="context">Additional Context <span class="optional">(Optional)</span></label>
+                    <textarea id="context" placeholder="Any extra details about your lesson, year group, or specific focus..."></textarea>
+                </div>
+                
+                <button class="generate-btn" onclick="generatePrompt()">Generate AI Prompt</button>
+            </div>
+            
+            <div id="output-section">
+                <div id="prompt-output" class="prompt-output"></div>
+                <button id="copy-btn" class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+            </div>
+            
+            <div class="instructions">
+                <h3>How to Use</h3>
+                <ol>
+                    <li>Fill in your lesson topic and driving question above</li>
+                    <li>Add any extra context if needed (optional)</li>
+                    <li>Click "Generate AI Prompt" to create your customized prompt</li>
+                    <li>Copy the generated prompt and paste it into your AI tool (ChatGPT, Gemini, Copilot, etc.)</li>
+                    <li>The AI will provide Scripture, Catholic Social Teaching, and School Value links with student-friendly explanations</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePrompt() {
+            const topic = document.getElementById('topic').value.trim();
+            const question = document.getElementById('question').value.trim();
+            const context = document.getElementById('context').value.trim();
+            
+            if (!topic || !question) {
+                alert('Please fill in both the topic and driving question fields.');
+                return;
+            }
+            
+            const promptTemplate = `You are an expert in Catholicism and Catholic education. You will be linking the lesson that I am teaching to Catholic Life.
+
+The topic is ${topic}.
+The driving question is ${question}.${context ? `
+The context is ${context}.` : ''}
+
+Please return your answer using the following structure:
+
+Section 1: Scripture
+- One short Bible verse, relevant to the lesson
+- A one-sentence explanation written so that it clearly explains to students how this scripture links to the lesson (simple language, age 13 reading level)
+- A short, ready-to-use teacher script line that could be spoken aloud in class
+- A short paragraph (student-friendly) that begins: "This lesson links to Scripture because..." which both includes the Bible verse and explains the link clearly to students, so it can be copied directly onto a lesson slide
+
+Section 2: Catholic Social Teaching
+- The most suitable CST principle (choose from: Dignity, Solidarity, The Common Good, The Option for the Poor, Peace, Creation and the Environment, The Dignity of Work, Participation)
+- A one-sentence explanation written so that it clearly explains to students how this CST links to the lesson (simple language, age 13 reading level)
+- A short, ready-to-use teacher script line that could be spoken aloud in class
+- A short paragraph (student-friendly) that begins: "This lesson links to Catholic Social Teaching because..." which both names the CST principle and explains the link clearly to students, so it can be copied directly onto a lesson slide
+
+Section 3: School Value
+- The most suitable School Value (choose from: Dignity, Integrity, Courage, Wisdom)
+- A one-sentence explanation written so that it clearly explains to students how this School Value links to the lesson (simple language, age 13 reading level)
+- A short, ready-to-use teacher script line that could be spoken aloud in class
+- A short paragraph (student-friendly) that begins: "This lesson links to our School Values because..." which both names the School Value and explains the link clearly to students, so it can be copied directly onto a lesson slide
+
+Final Step: Ranking
+- Rank the three (Scripture, CST, Value) from strongest link to least strong link for this particular lesson.
+- Write the ranking as a simple numbered list (1 = strongest link, 3 = least strong).
+
+Only give one scripture, one CST principle, and one school value. Keep everything short, clear, and student-friendly.`;
+            
+            document.getElementById('prompt-output').textContent = promptTemplate;
+            document.getElementById('prompt-output').style.display = 'block';
+            document.getElementById('copy-btn').style.display = 'inline-block';
+            
+            // Scroll to output
+            document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        async function copyPrompt() {
+            const promptText = document.getElementById('prompt-output').textContent;
+            const copyBtn = document.getElementById('copy-btn');
+            
+            try {
+                await navigator.clipboard.writeText(promptText);
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Prompt';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = promptText;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Prompt';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }
+        }
+        
+        // Allow Enter key to submit from input fields
+        document.getElementById('topic').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generatePrompt();
+            }
+        });
+        
+        document.getElementById('question').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generatePrompt();
+            }
+        });
+    </script>
+</body>
+</html>
