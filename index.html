@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catholic Life Lesson Prompt Generator</title>
+    <title>Ilsley Catholic Life Staff Hub</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -35,21 +35,154 @@
         }
         
         .header h1 {
-            font-size: 2.2em;
+            font-size: 2.5em;
             margin-bottom: 10px;
             font-weight: 600;
         }
         
         .header p {
-            font-size: 1.1em;
+            font-size: 1.2em;
             opacity: 0.9;
             line-height: 1.4;
+        }
+        
+        .tab-navigation {
+            display: flex;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 20px;
+            background: none;
+            border: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn:hover {
+            background: #edf2f7;
+            color: #2d3748;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #4299e1;
+            border-bottom-color: #4299e1;
         }
         
         .content {
             padding: 40px;
         }
         
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Homepage styles */
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .welcome-section h2 {
+            color: #2d3748;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+        
+        .welcome-section p {
+            color: #4a5568;
+            font-size: 1.2em;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .prayer-section {
+            background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
+            border-left: 5px solid #38a169;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .prayer-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .prayer-icon {
+            font-size: 2em;
+            margin-right: 15px;
+        }
+        
+        .prayer-title {
+            color: #2d3748;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        
+        .prayer-content {
+            color: #2d3748;
+        }
+        
+        .prayer-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .tool-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .tool-card:hover {
+            border-color: #4299e1;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.15);
+        }
+        
+        .tool-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .tool-card h3 {
+            color: #2d3748;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+        
+        .tool-card p {
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        
+        /* Shared form styles */
         .info-box {
             background: #f7fafc;
             border-left: 4px solid #4299e1;
@@ -123,12 +256,32 @@
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
         
         .generate-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+        
+        .clear-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: 2px solid #cbd5e0;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .clear-btn:hover {
+            background: #cbd5e0;
+            border-color: #a0aec0;
+            transform: translateY(-1px);
         }
         
         .prompt-output {
@@ -167,11 +320,12 @@
             background: #4299e1;
         }
         
+        /* Instructions styles */
         .instructions {
             background: #fff5f5;
             border-left: 4px solid #fc8181;
             padding: 20px;
-            margin-top: 30px;
+            margin-bottom: 30px;
             border-radius: 0 8px 8px 0;
         }
         
@@ -189,59 +343,570 @@
             margin-bottom: 8px;
             line-height: 1.5;
         }
+        
+        /* Reference guide styles */
+        .reference-guide {
+            background: #f0f8f0;
+            border: 2px solid #68d391;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .reference-header {
+            background: #68d391;
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .reference-header:hover {
+            background: #4fd375;
+        }
+        
+        .reference-header h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        
+        #toggle-arrow {
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        
+        .reference-content {
+            display: none;
+            padding: 20px;
+        }
+        
+        .reference-content.show {
+            display: block;
+        }
+        
+        .reference-section {
+            margin-bottom: 25px;
+        }
+        
+        .reference-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .reference-section h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #68d391;
+            padding-bottom: 5px;
+        }
+        
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .reference-item {
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #68d391;
+        }
+        
+        .reference-item strong {
+            color: #2d3748;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1em;
+        }
+        
+        .reference-item p {
+            color: #4a5568;
+            margin: 0;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        /* Placeholder styles for other tabs */
+        .coming-soon {
+            text-align: center;
+            padding: 60px 20px;
+            color: #4a5568;
+        }
+        
+        .coming-soon h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #2d3748;
+        }
+        
+        .coming-soon p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        /* Examen styles */
+        .examen-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .examen-screen {
+            display: none;
+            text-align: center;
+        }
+        
+        .examen-screen.active {
+            display: block;
+        }
+        
+        .examen-welcome-content {
+            padding: 40px 20px;
+        }
+        
+        .examen-welcome-content h3 {
+            color: #2d3748;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .examen-welcome-content p {
+            color: #4a5568;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 161, 105, 0.3);
+        }
+        
+        .examen-header {
+            margin-bottom: 30px;
+        }
+        
+        .timer-circle {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .timer-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+        
+        .timer-background {
+            fill: none;
+            stroke: #e2e8f0;
+            stroke-width: 8;
+        }
+        
+        .timer-progress {
+            fill: none;
+            stroke: #38a169;
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+        
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #2d3748;
+        }
+        
+        #timer-seconds {
+            font-size: 2em;
+            font-weight: 600;
+        }
+        
+        .timer-label {
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        .examen-content {
+            margin-bottom: 30px;
+        }
+        
+        .stage-indicator {
+            color: #4a5568;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        
+        #stage-title {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        
+        .stage-questions {
+            background: #f7fafc;
+            border-left: 4px solid #38a169;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .stage-questions p {
+            color: #2d3748;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .stage-questions p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .examen-controls {
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            background: #e2e8f0;
+            color: #4a5568;
+            border: 2px solid #cbd5e0;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: #cbd5e0;
+            border-color: #a0aec0;
+        }
+        
+        .examen-complete-content {
+            padding: 40px 20px;
+        }
+        
+        .examen-complete-content h3 {
+            color: #2d3748;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .examen-complete-content p {
+            color: #4a5568;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        .closing-prayer {
+            background: linear-gradient(135deg, #e6fffa 0%, #f0fff4 100%);
+            border-left: 4px solid #38a169;
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #2d3748;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Catholic Life Lesson Prompt Generator</h1>
-            <p>Generate AI prompts to link your lessons to Scripture, Catholic Social Teaching, and School Values</p>
+            <h1>Ilsley Catholic Life Staff Hub</h1>
+            <p>Resources to help you integrate faith into every aspect of teaching</p>
+        </div>
+        
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="showTab('home')">🏠 Home</button>
+            <button class="tab-btn" onclick="showTab('ai-prompts')">🤖 AI Lesson Links</button>
+            <button class="tab-btn" onclick="showTab('prayers')">🙏 Prayer Selector</button>
+            <button class="tab-btn" onclick="showTab('examen')">✝️ Daily Examen</button>
         </div>
         
         <div class="content">
-            <div class="info-box">
-                <h3>Why This Matters</h3>
-                <p>As a Catholic school, every lesson should link to Catholic Life through Catholic Social Teaching, School Values, or Scripture. This tool generates ready-to-use AI prompts that will create clear, student-friendly connections for your lessons.</p>
-            </div>
-            
-            <div class="form-section">
-                <div class="form-group">
-                    <label for="topic">Lesson Topic *</label>
-                    <input type="text" id="topic" placeholder="e.g., World War II, Photosynthesis, Romeo and Juliet" required>
+            <!-- HOME TAB -->
+            <div id="home" class="tab-content active">
+                <div class="welcome-section">
+                    <h2>Welcome to Your Catholic Life Hub</h2>
+                    <p>Everything you need to connect your teaching to Catholic values, prayer, and spiritual reflection. Use our tools to enrich your lessons with faith connections.</p>
                 </div>
                 
-                <div class="form-group">
-                    <label for="question">Driving Question *</label>
-                    <input type="text" id="question" placeholder="e.g., How did WWII change society? Why do plants need light?" required>
+                <div class="prayer-section">
+                    <div class="prayer-header">
+                        <span class="prayer-icon">🙏</span>
+                        <div class="prayer-title">Our School Prayer</div>
+                    </div>
+                    <div class="prayer-content">
+                        <div class="prayer-text">
+                            May God grant me,<br>
+                            The <strong>wisdom</strong> to know what is right and good.<br>
+                            The <strong>integrity</strong> to do all the things that I should.<br>
+                            The <strong>courage</strong> to defend the <strong>dignity</strong> of all<br>
+                            The graces I need to answer your call.<br>
+                            Fill our school with <strong>hope, love, joy and peace.</strong><br>
+                            So we can <strong>let your light shine</strong> for each person we meet.<br>
+                            May we be <strong>ready, safe, respectful and kind</strong>.<br>
+                            With those in most need in our hearts and our mind.<br>
+                            May we be <strong>'just and firm of purpose'</strong> in all we think, do and say.<br>
+                            Use our gifts, skills and efforts; to make the most of every day.<br>
+                            Amen.
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="context">Additional Context <span class="optional">(Optional)</span></label>
-                    <textarea id="context" placeholder="Any extra details about your lesson, year group, or specific focus..."></textarea>
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="showTab('ai-prompts')">
+                        <div class="tool-icon">🤖</div>
+                        <h3>AI Lesson Links</h3>
+                        <p>Generate prompts to connect any lesson to Scripture, Catholic Social Teaching, and School Values</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="showTab('prayers')">
+                        <div class="tool-icon">🙏</div>
+                        <h3>Prayer Selector</h3>
+                        <p>Random prayer generator for classroom use, staff meetings, or personal reflection</p>
+                    </div>
+                    
+                    <div class="tool-card" onclick="showTab('examen')">
+                        <div class="tool-icon">✝️</div>
+                        <h3>Daily Examen</h3>
+                        <p>5-minute guided reflection to find God's presence in your daily work and life</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI PROMPTS TAB -->
+            <div id="ai-prompts" class="tab-content">
+                <div class="info-box">
+                    <h3>Why This Matters</h3>
+                    <p>As a Catholic school, every lesson should link to Catholic Life through Catholic Social Teaching, School Values, or Scripture. This tool generates ready-to-use AI prompts that will create clear, student-friendly connections for your lessons.</p>
                 </div>
                 
-                <button class="generate-btn" onclick="generatePrompt()">Generate AI Prompt</button>
+                <div class="instructions">
+                    <h3>How to Use</h3>
+                    <ol>
+                        <li>Fill in your lesson topic and driving question below</li>
+                        <li>Add any extra context if needed (optional)</li>
+                        <li>Click "Generate AI Prompt" to create your customised prompt</li>
+                        <li>Copy the generated prompt and paste it into your AI tool (ChatGPT, Gemini, Copilot, etc.)</li>
+                        <li>The AI will provide Scripture, Catholic Social Teaching, and School Value links with student-friendly explanations</li>
+                        <li><strong>The AI will also rank the three options from strongest to weakest link</strong> to help you choose which connection to emphasise in your lesson</li>
+                    </ol>
+                </div>
+                
+                <div class="reference-guide">
+                    <div class="reference-header" onclick="toggleReference()">
+                        <h3>📚 Quick Reference Guide</h3>
+                        <span id="toggle-arrow">▼</span>
+                    </div>
+                    <div id="reference-content" class="reference-content">
+                        <div class="reference-section">
+                            <h4>Catholic Social Teaching Principles</h4>
+                            <div class="reference-grid">
+                                <div class="reference-item">
+                                    <strong>Dignity</strong>
+                                    <p>Every human has inherent worth and value</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Solidarity</strong>
+                                    <p>We are all connected and responsible for each other</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>The Common Good</strong>
+                                    <p>Working together for everyone's wellbeing</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Option for the Poor</strong>
+                                    <p>Special care for those who are disadvantaged</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Peace</strong>
+                                    <p>Creating harmony and resolving conflicts justly</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Creation & Environment</strong>
+                                    <p>Caring for God's creation and our planet</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Dignity of Work & Participation</strong>
+                                    <p>All work has value, workers deserve respect, and everyone should have a voice in their community</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="reference-section">
+                            <h4>School Values</h4>
+                            <div class="reference-grid">
+                                <div class="reference-item">
+                                    <strong>Dignity</strong>
+                                    <p>Respecting ourselves and others</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Integrity</strong>
+                                    <p>Being honest and doing what's right</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Courage</strong>
+                                    <p>Being brave and standing up for what's right</p>
+                                </div>
+                                <div class="reference-item">
+                                    <strong>Wisdom</strong>
+                                    <p>Making good choices and learning from experience</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="topic">Lesson Topic *</label>
+                        <input type="text" id="topic" placeholder="e.g., World War II, Photosynthesis, Romeo and Juliet" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="question">Driving Question *</label>
+                        <input type="text" id="question" placeholder="e.g., How did WWII change society? Why do plants need light?" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="context">Additional Context <span class="optional">(Optional)</span></label>
+                        <textarea id="context" placeholder="Any extra details about your lesson, year group, or specific focus..."></textarea>
+                    </div>
+                    
+                    <button class="generate-btn" onclick="generatePrompt()">Generate AI Prompt</button>
+                    <button class="clear-btn" onclick="clearForm()">Clear to Make New Prompt</button>
+                </div>
+                
+                <div id="output-section">
+                    <div id="prompt-output" class="prompt-output"></div>
+                    <button id="copy-btn" class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+                </div>
+                
+                <div class="info-box" style="background: #fffaf0; border-left-color: #ed8936;">
+                    <h3 style="color: #c05621;">Important Reminder</h3>
+                    <p style="color: #744210;">Please make sure you check the AI response as Generative AI can make mistakes. Review the Scripture references, Catholic Social Teaching connections, and explanations to ensure they align with Catholic doctrine and are appropriate for your students.</p>
+                </div>
             </div>
             
-            <div id="output-section">
-                <div id="prompt-output" class="prompt-output"></div>
-                <button id="copy-btn" class="copy-btn" onclick="copyPrompt()">Copy Prompt</button>
+            <!-- PRAYERS TAB -->
+            <div id="prayers" class="tab-content">
+                <div class="coming-soon">
+                    <h3>🙏 Prayer Selector</h3>
+                    <p>Coming soon! This will be your random prayer generator with a collection of Catholic prayers perfect for classroom use, staff meetings, or personal reflection.</p>
+                </div>
             </div>
             
-            <div class="instructions">
-                <h3>How to Use</h3>
-                <ol>
-                    <li>Fill in your lesson topic and driving question above</li>
-                    <li>Add any extra context if needed (optional)</li>
-                    <li>Click "Generate AI Prompt" to create your customized prompt</li>
-                    <li>Copy the generated prompt and paste it into your AI tool (ChatGPT, Gemini, Copilot, etc.)</li>
-                    <li>The AI will provide Scripture, Catholic Social Teaching, and School Value links with student-friendly explanations</li>
-                </ol>
+            <!-- EXAMEN TAB -->
+            <div id="examen" class="tab-content">
+                <div class="info-box">
+                    <h3>Daily Examen</h3>
+                    <p>A 3-minute guided reflection based on St. Ignatius's Daily Examen. This will help you find God's presence in your daily experiences through five stages of reflection.</p>
+                </div>
+                
+                <div class="examen-container">
+                    <audio id="examen-audio" preload="auto" loop>
+                        <source src="Tranquility.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    
+                    <div id="examen-welcome" class="examen-screen active">
+                        <div class="examen-welcome-content">
+                            <h3>3-Minute Daily Examen</h3>
+                            <p>Take a few minutes to reflect on your day and find God's presence in your experiences. The reflection will guide you through 5 stages, spending 36 seconds on each.</p>
+                            <button class="start-btn" onclick="startExamen()">Start 3-Minute Examen</button>
+                        </div>
+                    </div>
+                    
+                    <div id="examen-active" class="examen-screen">
+                        <div class="examen-header">
+                            <div class="timer-circle">
+                                <svg class="timer-svg" viewBox="0 0 100 100">
+                                    <circle class="timer-background" cx="50" cy="50" r="45"></circle>
+                                    <circle class="timer-progress" cx="50" cy="50" r="45"></circle>
+                                </svg>
+                                <div class="timer-text">
+                                    <div id="timer-seconds">36</div>
+                                    <div class="timer-label">seconds</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="examen-content">
+                            <div class="stage-indicator">
+                                <span id="current-stage">1</span> of 5
+                            </div>
+                            <h3 id="stage-title">Gratitude</h3>
+                            <div id="stage-questions" class="stage-questions">
+                                <p>• What made you smile today?</p>
+                                <p>• What are you thankful for from today?</p>
+                                <p>• Who or what brought you joy today?</p>
+                            </div>
+                        </div>
+                        
+                        <div class="examen-controls">
+                            <button class="control-btn" onclick="startOver()">Start Over</button>
+                            <button class="control-btn" id="audio-toggle" onclick="toggleAudio()">🔊 Music On</button>
+                        </div>
+                    </div>
+                    
+                    <div id="examen-complete" class="examen-screen">
+                        <div class="examen-complete-content">
+                            <h3>✝️ Examen Complete</h3>
+                            <p>Take a moment to offer a prayer of gratitude for God's presence in your day.</p>
+                            <div class="closing-prayer">
+                                <em>"Thank you, God, for walking with me today. Help me to carry your love with me tomorrow. Amen."</em>
+                            </div>
+                            <button class="start-btn" onclick="startOver()">Reflect Again</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+        
         function generatePrompt() {
             const topic = document.getElementById('topic').value.trim();
             const question = document.getElementById('question').value.trim();
@@ -267,7 +932,7 @@ Section 1: Scripture
 - A short paragraph (student-friendly) that begins: "This lesson links to Scripture because..." which both includes the Bible verse and explains the link clearly to students, so it can be copied directly onto a lesson slide
 
 Section 2: Catholic Social Teaching
-- The most suitable CST principle (choose from: Dignity, Solidarity, The Common Good, The Option for the Poor, Peace, Creation and the Environment, The Dignity of Work, Participation)
+- The most suitable CST principle (choose from: Dignity, Solidarity, The Common Good, The Option for the Poor, Peace, Creation and the Environment, The Dignity of Work & Participation)
 - A one-sentence explanation written so that it clearly explains to students how this CST links to the lesson (simple language, age 13 reading level)
 - A short, ready-to-use teacher script line that could be spoken aloud in class
 - A short paragraph (student-friendly) that begins: "This lesson links to Catholic Social Teaching because..." which both names the CST principle and explains the link clearly to students, so it can be copied directly onto a lesson slide
@@ -324,6 +989,28 @@ Only give one scripture, one CST principle, and one school value. Keep everythin
             }
         }
         
+        function clearForm() {
+            document.getElementById('topic').value = '';
+            document.getElementById('question').value = '';
+            document.getElementById('context').value = '';
+            document.getElementById('prompt-output').style.display = 'none';
+            document.getElementById('copy-btn').style.display = 'none';
+            document.getElementById('topic').focus();
+        }
+        
+        function toggleReference() {
+            const content = document.getElementById('reference-content');
+            const arrow = document.getElementById('toggle-arrow');
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                arrow.textContent = '▼';
+            } else {
+                content.classList.add('show');
+                arrow.textContent = '▲';
+            }
+        }
+        
         // Allow Enter key to submit from input fields
         document.getElementById('topic').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -336,6 +1023,148 @@ Only give one scripture, one CST principle, and one school value. Keep everythin
                 generatePrompt();
             }
         });
+        
+        // Examen functionality
+        let examenTimer;
+        let currentStage = 0;
+        let timeRemaining = 36;
+        
+        const examenStages = [
+            {
+                title: "Gratitude",
+                questions: [
+                    "• What made you smile today?",
+                    "• What are you thankful for from today?",
+                    "• Who or what brought you joy today?"
+                ]
+            },
+            {
+                title: "God's Presence", 
+                questions: [
+                    "• When did you feel peaceful or loved today?",
+                    "• Where did you see kindness or goodness today?",
+                    "• What moment felt special or meaningful?"
+                ]
+            },
+            {
+                title: "Challenges",
+                questions: [
+                    "• What was difficult or frustrating today?",
+                    "• How did you handle tough situations?",
+                    "• What would you do differently?"
+                ]
+            },
+            {
+                title: "Forgiveness",
+                questions: [
+                    "• Who do you need to say sorry to?",
+                    "• Who do you need to forgive?",
+                    "• What mistakes can you learn from?"
+                ]
+            },
+            {
+                title: "Tomorrow",
+                questions: [
+                    "• How can you be kinder tomorrow?",
+                    "• What do you want to do better tomorrow?",
+                    "• How can you help others tomorrow?"
+                ]
+            }
+        ];
+        
+        function startExamen() {
+            currentStage = 0;
+            timeRemaining = 36;
+            
+            // Hide welcome, show active
+            document.getElementById('examen-welcome').classList.remove('active');
+            document.getElementById('examen-active').classList.add('active');
+            document.getElementById('examen-complete').classList.remove('active');
+            
+            // Start music
+            const audio = document.getElementById('examen-audio');
+            audio.currentTime = 0;
+            audio.volume = 0.6; // Set comfortable volume
+            audio.play().catch(e => console.log('Audio autoplay blocked:', e));
+            
+            // Start first stage
+            updateStageDisplay();
+            startStageTimer();
+        }
+        
+        function startOver() {
+            clearInterval(examenTimer);
+            
+            // Stop music
+            const audio = document.getElementById('examen-audio');
+            audio.pause();
+            audio.currentTime = 0;
+            
+            // Reset to welcome screen
+            document.getElementById('examen-welcome').classList.add('active');
+            document.getElementById('examen-active').classList.remove('active');
+            document.getElementById('examen-complete').classList.remove('active');
+        }
+        
+        function toggleAudio() {
+            const audio = document.getElementById('examen-audio');
+            const button = document.getElementById('audio-toggle');
+            
+            if (audio.muted) {
+                audio.muted = false;
+                button.textContent = '🔊 Music On';
+            } else {
+                audio.muted = true;
+                button.textContent = '🔇 Music Off';
+            }
+        }
+        
+        function updateStageDisplay() {
+            const stage = examenStages[currentStage];
+            document.getElementById('current-stage').textContent = currentStage + 1;
+            document.getElementById('stage-title').textContent = stage.title;
+            document.getElementById('stage-questions').innerHTML = stage.questions.map(q => `<p>${q}</p>`).join('');
+        }
+        
+        function startStageTimer() {
+            timeRemaining = 36;
+            updateTimerDisplay();
+            
+            examenTimer = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(examenTimer);
+                    nextStage();
+                }
+            }, 1000);
+        }
+        
+        function updateTimerDisplay() {
+            document.getElementById('timer-seconds').textContent = timeRemaining;
+            
+            // Update progress circle
+            const progress = ((36 - timeRemaining) / 36) * 283;
+            document.querySelector('.timer-progress').style.strokeDashoffset = 283 - progress;
+        }
+        
+        function nextStage() {
+            currentStage++;
+            
+            if (currentStage >= examenStages.length) {
+                // Complete - stop music
+                const audio = document.getElementById('examen-audio');
+                audio.pause();
+                
+                document.getElementById('examen-active').classList.remove('active');
+                document.getElementById('examen-complete').classList.add('active');
+            } else {
+                // Next stage
+                updateStageDisplay();
+                startStageTimer();
+            }
+        }
     </script>
 </body>
 </html>
