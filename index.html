@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ilsley Catholic Life Staff Hub</title>
+    <title>Ilsley Catholic Life Hub</title>
     <style>
         * {
             margin: 0;
@@ -31,7 +31,26 @@
             background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
             color: white;
             padding: 30px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .school-logo {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+        }
+        
+        .header-text {
+            flex: 1;
         }
         
         .header h1 {
@@ -633,13 +652,100 @@
             line-height: 1.6;
             color: #2d3748;
         }
+        
+        /* Prayer Selector styles */
+        .prayer-selector-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .prayer-controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .prayer-btn {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+        
+        .prayer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 161, 105, 0.3);
+        }
+        
+        .prayer-btn.secondary {
+            background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+        }
+        
+        .prayer-btn.secondary:hover {
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+        
+        .prayer-display {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        .prayer-header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+        
+        .prayer-header h3 {
+            color: #2d3748;
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        
+        .prayer-category {
+            color: #4a5568;
+            font-size: 1em;
+            font-style: italic;
+            background: #e2e8f0;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .prayer-display .prayer-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #2d3748;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+        
+        .prayer-footer {
+            text-align: center;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Ilsley Catholic Life Staff Hub</h1>
-            <p>Resources to help you integrate faith into every aspect of teaching</p>
+            <div class="header-content">
+                <img src="Ilsley Logo.png" alt="Ilsley School Logo" class="school-logo">
+                <div class="header-text">
+                    <h1>Ilsley Catholic Life Hub</h1>
+                    <p>Resources to help you integrate faith into every aspect of teaching</p>
+                </div>
+            </div>
         </div>
         
         <div class="tab-navigation">
@@ -817,9 +923,27 @@
             
             <!-- PRAYERS TAB -->
             <div id="prayers" class="tab-content">
-                <div class="coming-soon">
-                    <h3>🙏 Prayer Selector</h3>
-                    <p>Coming soon! This will be your random prayer generator with a collection of Catholic prayers perfect for classroom use, staff meetings, or personal reflection.</p>
+                <div class="info-box">
+                    <h3>Prayer Selector</h3>
+                    <p>A collection of 25 traditional Catholic prayers for classroom use, staff meetings, or personal reflection. Click the button below to randomly select a prayer, or use the "Next Prayer" button to explore more.</p>
+                </div>
+                
+                <div class="prayer-selector-container">
+                    <div class="prayer-controls">
+                        <button class="prayer-btn" onclick="getRandomPrayer()">🙏 Get Random Prayer</button>
+                        <button class="prayer-btn secondary" id="next-prayer-btn" onclick="getRandomPrayer()" style="display: none;">Next Prayer</button>
+                    </div>
+                    
+                    <div id="prayer-display" class="prayer-display" style="display: none;">
+                        <div class="prayer-header">
+                            <h3 id="prayer-title"></h3>
+                            <div class="prayer-category" id="prayer-category"></div>
+                        </div>
+                        <div class="prayer-text" id="prayer-text"></div>
+                        <div class="prayer-footer">
+                            <button class="control-btn" onclick="printPrayer()">🖨️ Print Prayer</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -1165,6 +1289,446 @@ Only give one scripture, one CST principle, and one school value. Keep everythin
                 updateStageDisplay();
                 startStageTimer();
             }
+        }
+        
+        // Prayer Selector functionality
+        const catholicPrayers = [
+            {
+                title: "Our Father (The Lord's Prayer)",
+                category: "Traditional Prayers",
+                text: `Our Father, who art in heaven,
+hallowed be thy name;
+thy kingdom come;
+thy will be done on earth as it is in heaven.
+Give us this day our daily bread;
+and forgive us our trespasses,
+as we forgive those who trespass against us;
+and lead us not into temptation,
+but deliver us from evil. Amen.`
+            },
+            {
+                title: "Hail Mary",
+                category: "Traditional Prayers", 
+                text: `Hail Mary, full of grace,
+the Lord is with thee;
+blessed art thou among women,
+and blessed is the fruit of thy womb, Jesus.
+Holy Mary, Mother of God,
+pray for us sinners,
+now and at the hour of our death. Amen.`
+            },
+            {
+                title: "Glory Be (Doxology)",
+                category: "Traditional Prayers",
+                text: `Glory be to the Father,
+and to the Son,
+and to the Holy Spirit,
+as it was in the beginning, is now,
+and ever shall be, world without end. Amen.`
+            },
+            {
+                title: "Apostles' Creed",
+                category: "Traditional Prayers",
+                text: `I believe in God, the Father almighty,
+Creator of heaven and earth,
+and in Jesus Christ, his only Son, our Lord,
+who was conceived by the Holy Spirit,
+born of the Virgin Mary,
+suffered under Pontius Pilate,
+was crucified, died and was buried;
+he descended into hell;
+on the third day he rose again from the dead;
+he ascended into heaven,
+and is seated at the right hand of God the Father almighty;
+from there he will come to judge the living and the dead.
+I believe in the Holy Spirit,
+the holy catholic Church,
+the communion of saints,
+the forgiveness of sins,
+the resurrection of the body,
+and life everlasting. Amen.`
+            },
+            {
+                title: "Nicene Creed",
+                category: "Traditional Prayers",
+                text: `I believe in one God,
+the Father almighty,
+maker of heaven and earth,
+of all things visible and invisible.
+
+I believe in one Lord Jesus Christ,
+the Only Begotten Son of God,
+born of the Father before all ages.
+God from God, Light from Light,
+true God from true God,
+begotten, not made,
+consubstantial with the Father;
+through him all things were made.
+
+For us men and for our salvation
+he came down from heaven,
+and by the Holy Spirit was incarnate of the Virgin Mary,
+and became man.
+
+For our sake he was crucified under Pontius Pilate,
+he suffered death and was buried,
+and rose again on the third day
+in accordance with the Scriptures.
+He ascended into heaven
+and is seated at the right hand of the Father.
+He will come again in glory
+to judge the living and the dead
+and his kingdom will have no end.
+
+I believe in the Holy Spirit, the Lord, the giver of life,
+who proceeds from the Father and the Son,
+who with the Father and the Son is adored and glorified,
+who has spoken through the prophets.
+
+I believe in one, holy, catholic and apostolic Church.
+I confess one Baptism for the forgiveness of sins
+and I look forward to the resurrection of the dead
+and the life of the world to come. Amen.`
+            },
+            {
+                title: "Act of Contrition",
+                category: "Prayers of Repentance & Mercy",
+                text: `O my God, I am heartily sorry
+for having offended Thee,
+and I detest all my sins,
+because I dread the loss of heaven
+and the pains of hell,
+but most of all because they offend Thee, my God,
+who art all good and deserving of all my love.
+I firmly resolve, with the help of Thy grace,
+to confess my sins, to do penance,
+and to amend my life. Amen.`
+            },
+            {
+                title: "Confiteor (I Confess)",
+                category: "Prayers of Repentance & Mercy",
+                text: `I confess to almighty God
+and to you, my brothers and sisters,
+that I have greatly sinned,
+in my thoughts and in my words,
+in what I have done and in what I have failed to do,
+through my fault, through my fault,
+through my most grievous fault;
+therefore I ask blessed Mary ever-Virgin,
+all the Angels and Saints,
+and you, my brothers and sisters,
+to pray for me to the Lord our God.`
+            },
+            {
+                title: "Kyrie Eleison (Lord, Have Mercy)",
+                category: "Prayers of Repentance & Mercy",
+                text: `Lord, have mercy.
+Christ, have mercy.
+Lord, have mercy.`
+            },
+            {
+                title: "The Jesus Prayer",
+                category: "Prayers of Repentance & Mercy",
+                text: `Lord Jesus Christ, Son of God,
+have mercy on me, a sinner.`
+            },
+            {
+                title: "Prayer of St. Augustine",
+                category: "Prayers of Repentance & Mercy",
+                text: `Late have I loved you, O Beauty ever ancient, ever new, late have I loved you!
+You were within me, but I was outside, and it was there that I searched for you.
+In my unloveliness I plunged into the lovely things which you created.
+You were with me, but I was not with you.
+Created things kept me from you; yet if they had not been in you they would not have been at all.
+You called, you shouted, and you broke through my deafness.
+You flashed, you shone, and you dispelled my blindness.
+You breathed your fragrance on me; I drew in breath and now I pant for you.
+I have tasted you, now I hunger and thirst for more.
+You touched me, and I burned for your peace. Amen.`
+            },
+            {
+                title: "Gloria (Glory to God in the Highest)",
+                category: "Prayers of Adoration & Praise",
+                text: `Glory to God in the highest,
+and on earth peace to people of good will.
+We praise you,
+we bless you,
+we adore you,
+we glorify you,
+we give you thanks for your great glory,
+Lord God, heavenly King,
+O God, almighty Father.
+
+Lord Jesus Christ, Only Begotten Son,
+Lord God, Lamb of God, Son of the Father,
+you take away the sins of the world, have mercy on us;
+you take away the sins of the world, receive our prayer;
+you are seated at the right hand of the Father, have mercy on us.
+
+For you alone are the Holy One,
+you alone are the Lord,
+you alone are the Most High, Jesus Christ,
+with the Holy Spirit, in the glory of God the Father. Amen.`
+            },
+            {
+                title: "Te Deum",
+                category: "Prayers of Adoration & Praise",
+                text: `You are God: we praise you;
+You are the Lord: we acclaim you;
+You are the eternal Father: all creation worships you.
+To you all angels, all the powers of heaven,
+Cherubim and Seraphim, sing in endless praise:
+Holy, holy, holy Lord, God of power and might,
+heaven and earth are full of your glory.`
+            },
+            {
+                title: "The Magnificat (Luke 1:46-55)",
+                category: "Prayers of Adoration & Praise",
+                text: `My soul proclaims the greatness of the Lord;
+my spirit rejoices in God my Savior.
+For he has looked upon his handmaid's lowliness;
+behold, from now on will all ages call me blessed.
+The Mighty One has done great things for me,
+and holy is his name.
+His mercy is from age to age
+to those who fear him.
+
+He has shown might with his arm,
+dispersed the arrogant of mind and heart.
+He has thrown down the rulers from their thrones
+but lifted up the lowly.
+The hungry he has filled with good things;
+the rich he has sent away empty.
+He has helped Israel his servant,
+remembering his mercy,
+according to his promise to our fathers,
+to Abraham and to his descendants forever.`
+            },
+            {
+                title: "Benedictus (Zechariah's Song - Luke 1:68-79)",
+                category: "Prayers of Adoration & Praise",
+                text: `Blessed be the Lord, the God of Israel,
+for he has come to his people and set them free.
+He has raised up for us a mighty savior,
+born of the house of his servant David.
+Through his holy prophets he promised of old
+that he would save us from our enemies,
+from the hands of all who hate us.
+
+He promised to show mercy to our fathers
+and to remember his holy covenant.
+This was the oath he swore to our father Abraham,
+to set us free from the hands of our enemies,
+free to worship him without fear,
+holy and righteous in his sight
+all the days of our life.
+
+You, my child, shall be called the prophet of the Most High,
+for you will go before the Lord to prepare his way,
+to give his people knowledge of salvation
+by the forgiveness of their sins.
+In the tender compassion of our God
+the dawn from on high shall break upon us,
+to shine on those who dwell in darkness and the shadow of death,
+and to guide our feet into the way of peace.`
+            },
+            {
+                title: "The Angelus",
+                category: "Prayers of Adoration & Praise",
+                text: `V. The Angel of the Lord declared to Mary.
+R. And she conceived of the Holy Spirit.
+Hail Mary...
+
+V. Behold the handmaid of the Lord.
+R. Be it done unto me according to thy word.
+Hail Mary...
+
+V. And the Word was made Flesh.
+R. And dwelt among us.
+Hail Mary...
+
+Pray for us, O Holy Mother of God,
+that we may be made worthy of the promises of Christ.
+
+Let us pray:
+Pour forth, we beseech Thee, O Lord,
+Thy grace into our hearts;
+that we, to whom the Incarnation of Christ, Thy Son,
+was made known by the message of an angel,
+may by His Passion and Cross
+be brought to the glory of His Resurrection.
+Through the same Christ Our Lord. Amen.`
+            },
+            {
+                title: "Memorare",
+                category: "Prayers of Intercession & Protection",
+                text: `Remember, O most gracious Virgin Mary,
+that never was it known
+that anyone who fled to thy protection,
+implored thy help,
+or sought thy intercession,
+was left unaided.
+
+Inspired with this confidence,
+I fly to thee, O Virgin of virgins, my Mother;
+to thee do I come,
+before thee I stand, sinful and sorrowful.
+O Mother of the Word Incarnate,
+despise not my petitions,
+but in thy mercy hear and answer me. Amen.`
+            },
+            {
+                title: "Salve Regina (Hail, Holy Queen)",
+                category: "Prayers of Intercession & Protection",
+                text: `Hail, Holy Queen, Mother of mercy,
+our life, our sweetness, and our hope.
+To thee do we cry, poor banished children of Eve;
+to thee do we send up our sighs,
+mourning and weeping in this valley of tears.
+
+Turn then, most gracious advocate,
+thine eyes of mercy toward us,
+and after this our exile,
+show unto us the blessed fruit of thy womb, Jesus.
+O clement, O loving, O sweet Virgin Mary.
+
+Pray for us, O Holy Mother of God,
+that we may be made worthy of the promises of Christ. Amen.`
+            },
+            {
+                title: "Guardian Angel Prayer",
+                category: "Prayers of Intercession & Protection",
+                text: `Angel of God, my guardian dear,
+to whom God's love commits me here,
+ever this day, be at my side,
+to light and guard, to rule and guide. Amen.`
+            },
+            {
+                title: "St. Michael the Archangel Prayer",
+                category: "Prayers of Intercession & Protection",
+                text: `St. Michael the Archangel,
+defend us in battle.
+Be our protection against the wickedness and snares of the devil;
+may God rebuke him, we humbly pray;
+and do thou, O Prince of the heavenly host,
+by the power of God,
+thrust into hell Satan and all the evil spirits
+who prowl about the world seeking the ruin of souls. Amen.`
+            },
+            {
+                title: "Litany of the Saints (short form)",
+                category: "Prayers of Intercession & Protection",
+                text: `Holy Mary, Mother of God --- pray for us.
+St. Joseph --- pray for us.
+St. Peter and St. Paul --- pray for us.
+St. Francis and St. Clare --- pray for us.
+All holy men and women --- pray for us.`
+            },
+            {
+                title: "Anima Christi",
+                category: "Eucharistic & Devotional Prayers",
+                text: `Soul of Christ, sanctify me.
+Body of Christ, save me.
+Blood of Christ, inebriate me.
+Water from the side of Christ, wash me.
+Passion of Christ, strengthen me.
+O good Jesus, hear me.
+Within Thy wounds hide me.
+Permit me not to be separated from Thee.
+From the evil one defend me.
+At the hour of my death call me
+and bid me come unto Thee,
+that with all Thy saints I may praise Thee
+forever and ever. Amen.`
+            },
+            {
+                title: "Prayer Before Meals",
+                category: "Eucharistic & Devotional Prayers",
+                text: `Bless us, O Lord, and these Thy gifts,
+which we are about to receive from Thy bounty,
+through Christ our Lord. Amen.`
+            },
+            {
+                title: "Prayer After Meals",
+                category: "Eucharistic & Devotional Prayers",
+                text: `We give Thee thanks, almighty God,
+for all Thy benefits,
+who livest and reignest forever and ever. Amen.
+May the souls of the faithful departed,
+through the mercy of God,
+rest in peace. Amen.`
+            },
+            {
+                title: "Act of Spiritual Communion",
+                category: "Eucharistic & Devotional Prayers",
+                text: `My Jesus, I believe that You are present
+in the Most Holy Sacrament.
+I love You above all things,
+and I desire to receive You into my soul.
+Since I cannot at this moment receive You sacramentally,
+come at least spiritually into my heart.
+I embrace You as if You were already there
+and unite myself wholly to You.
+Never permit me to be separated from You. Amen.`
+            },
+            {
+                title: "Divine Mercy Chaplet (Opening Prayer)",
+                category: "Eucharistic & Devotional Prayers",
+                text: `Eternal Father, I offer You the Body and Blood,
+Soul and Divinity of Your dearly beloved Son,
+Our Lord Jesus Christ,
+in atonement for our sins and those of the whole world.
+
+For the sake of His sorrowful Passion,
+have mercy on us and on the whole world.`
+            }
+        ];
+        
+        let currentPrayerIndex = -1;
+        
+        function getRandomPrayer() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * catholicPrayers.length);
+            } while (newIndex === currentPrayerIndex && catholicPrayers.length > 1);
+            
+            currentPrayerIndex = newIndex;
+            const prayer = catholicPrayers[currentPrayerIndex];
+            
+            document.getElementById('prayer-title').textContent = prayer.title;
+            document.getElementById('prayer-category').textContent = prayer.category;
+            document.getElementById('prayer-text').innerHTML = prayer.text.replace(/\n/g, '<br>');
+            
+            document.getElementById('prayer-display').style.display = 'block';
+            document.getElementById('next-prayer-btn').style.display = 'inline-block';
+            
+            // Scroll to prayer
+            document.getElementById('prayer-display').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function printPrayer() {
+            const prayer = catholicPrayers[currentPrayerIndex];
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${prayer.title}</title>
+                    <style>
+                        body { font-family: serif; padding: 20px; line-height: 1.8; }
+                        h1 { color: #2d3748; text-align: center; margin-bottom: 10px; }
+                        .category { text-align: center; font-style: italic; color: #666; margin-bottom: 30px; }
+                        .prayer-text { font-size: 14px; white-space: pre-line; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${prayer.title}</h1>
+                    <div class="category">${prayer.category}</div>
+                    <div class="prayer-text">${prayer.text}</div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
         }
     </script>
 </body>
